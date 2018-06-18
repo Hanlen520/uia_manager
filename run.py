@@ -11,6 +11,7 @@ def remove_readonly(func, path, _):
 
 
 def pull_modules():
+    print('Trying to get latest modules ...')
     os.chdir(cf.WORKSPACE_PATH)
     pull_process_list = []
     for each_module_name, each_module_git_url in cf.MODULE_DICT.items():
@@ -29,27 +30,31 @@ def pull_modules():
         _.communicate()
 
     os.chdir(cf.PROJECT_PATH)
-    print('modules already latest.')
+    print('Modules already latest.')
 
 
 def insert_cases():
     shutil.rmtree(cf.TARGET_CASE_DIR_PATH, onerror=remove_readonly)
     shutil.copytree(cf.SOURCE_CASE_DIR_PATH, cf.TARGET_CASE_DIR_PATH)
-    print('cases ready.')
+    print('Cases ready.')
 
 
 def insert_api_file():
     shutil.copyfile(cf.SOURCE_API_FILE_PATH, cf.TARGET_API_FILE_PATH)
-    print('api file ready.')
+    print('Api file ready.')
 
 
 def init_device():
     cmd = '{} -m uiautomator2 init'.format(cf.PYTHON_PATH)
-    subprocess.run(cmd, shell=True)
-    print('device init ok.')
+    return_code = os.system(cmd)
+    if return_code:
+        raise SystemError('error happened in {}'.format(cmd))
+    else:
+        print('Device init ok.')
 
 
 def start_test(task_name):
+    print('Environment init ok. Start test ...')
     task_name = str(task_name)
     init_device()
     for each_device in cf.DEVICE_LIST:
@@ -60,6 +65,7 @@ def start_test(task_name):
             task_name,
         )
         print(run_cmd)
+        # TODO: 多设备同步
         subprocess.run(run_cmd, shell=True)
 
 
@@ -69,3 +75,4 @@ if __name__ == '__main__':
         insert_cases()
         insert_api_file()
     start_test(cf.TASK_NAME)
+    print('Task [ {} ] finished.')
