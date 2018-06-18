@@ -68,4 +68,4 @@ if __name__ == '__main__':
         pull_modules()
         insert_cases()
         insert_api_file()
-    start_test('hello')
+    start_test(cf.TASK_NAME)
