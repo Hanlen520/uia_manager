@@ -3,11 +3,11 @@ import os
 
 # --- PIPELINE ---
 PROJECT_PATH = os.path.dirname(__file__)
-WORKSPACE_PATH = '/home/fengzhangchi/ui_auto_workspace'
-PYTHON_PATH = '/usr/bin/python3'
+WORKSPACE_PATH = '/Users/fengzhangchi/ui_auto_workspace'
+PYTHON_PATH = '/Library/Frameworks/Python.framework/Versions/3.6/bin/python3'
 
 # --- GIT ---
-CASE_PROJECT_NAME = 'IPEntryAutoTest'
+CASE_PROJECT_NAME = 'uia_case_sample'
 CASE_DIR_NAME = 'cases'
 API_FILE_NAME = 'extend_api.py'
 
@@ -30,7 +30,7 @@ TARGET_API_FILE_PATH = os.path.join(WORKSPACE_PATH, FRAMEWORK_PROJECT_NAME, API_
 SOURCE_API_FILE_PATH = os.path.join(WORKSPACE_PATH, CASE_PROJECT_NAME, API_FILE_NAME)
 
 # --- DEVICE ---
-DEVICE_LIST = ['QGTKH6MFVWRODU8T']
+DEVICE_LIST = ['R8AQCYIBKB496DOZ', ]
 
 # --- DEBUG MODE ---
 DEBUG_SWITCH = True

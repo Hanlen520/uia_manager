@@ -3,7 +3,6 @@ import subprocess
 import os
 import shutil
 import stat
-import time
 
 
 def remove_readonly(func, path, _):
@@ -16,7 +15,9 @@ def pull_modules():
     pull_process_list = []
     for each_module_name, each_module_git_url in cf.MODULE_DICT.items():
         if os.path.exists(each_module_name):
-            git_cmd = 'cd {} && git reset --hard HEAD^ && git pull --rebase'.format(each_module_name)
+            git_cmd = 'cd {} && ' \
+                      'git reset --hard HEAD^ && ' \
+                      'git pull --rebase'.format(each_module_name)
         else:
             git_cmd = 'git clone {}'.format(each_module_git_url)
         cur_process = subprocess.Popen(
@@ -28,7 +29,7 @@ def pull_modules():
         _.communicate()
 
     os.chdir(cf.PROJECT_PATH)
-    print('pull finished.')
+    print('modules already latest.')
 
 
 def insert_cases():
@@ -42,8 +43,15 @@ def insert_api_file():
     print('api file ready.')
 
 
+def init_device():
+    cmd = '{} -m uiautomator2 init'.format(cf.PYTHON_PATH)
+    subprocess.run(cmd, shell=True)
+    print('device init ok.')
+
+
 def start_test(task_name):
     task_name = str(task_name)
+    init_device()
     for each_device in cf.DEVICE_LIST:
         run_cmd = '{} {} -d {} -t {}'.format(
             cf.PYTHON_PATH,
